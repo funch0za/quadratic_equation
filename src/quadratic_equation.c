@@ -1,6 +1,6 @@
 #include "../include/quadratic_equation.h"
 
-bool num_is_normal(double x) {
+bool num_is_ok(double x) {
   return fpclassify(x) == FP_ZERO || fpclassify(x) == FP_NORMAL;
 }
 
@@ -8,7 +8,7 @@ eq_status_t solve_equation(double a, double b, double c, double *x1,
                            double *x2) {
   eq_status_t status;
 
-  if (num_is_normal(a) && num_is_normal(b) && num_is_normal(c)) {
+  if (num_is_ok(a) && num_is_ok(b) && num_is_ok(c)) {
     status = EQ_ERROR;
     if (a == 0) {
       if (b == 0) {

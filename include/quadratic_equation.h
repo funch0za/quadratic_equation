@@ -12,7 +12,7 @@ enum {
 typedef int eq_status_t;
 
 // Функция проверяет что число не NAN и не бесконечность
-bool num_is_normal(double x);
+bool num_is_ok(double x);
 
 // Функция решает квадратное уравнение ax^2+bx+c=0
 eq_status_t solve_equation(double a, double b, double c, double *x1,
