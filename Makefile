@@ -1,17 +1,41 @@
-CC=gcc
-LIB_FLAGS= -lm
-CHECK_FLAGS = -lcheck
+CC := gcc
 
-SOURCE=src/quadratic_equation.c
-TESTS=tests/test_quadratic_equation.c
-BUILD_DIR=build
-OUT=test_quadratic_equation
+NAME := quadratic_equation
 
-check:
-	$(CC) $(LIB_FLAGS) $(CHECK_FLAGS) $(SOURCE) $(TESTS) -o $(BUILD_DIR)/$(OUT)
+SRCDIR := ./src
+SRC := $(SRCDIR)/*.c
+TSTDIR := ./test
+TST := $(TSTDIR)/*.c
+BUILDDIR := ./build
+OBJECT := $(BUILDDIR)/$(NAME).o
+BINDIR := ./bin
 
-run:
-	gcc -lm $(SOURCE) scripts/run.c -o $(BUILD_DIR)/$(OUT)
+TARGET := $(BUILDDIR)/$(NAME).a
+TESTER := $(BINDIR)/test_$(NAME)
+
+CFLAGS := -std=c11
+LFLAGS := -lm
+LFLAGS_TST := -lcheck
+
+RM := rm
+AR := ar
+AR_FLAGS := rcs
+
+all: clean $(TARGET)
+
+$(TARGET): $(OBJECT)
+	@echo "Linking..."
+	$(AR) $(AR_FLAGS) $(TARGET) $(OBJECT)
+
+$(OBJECT): $(SRC)
+	@echo "Compiling..."
+	$(CC) -c $(LFLAGS) $(CFLAGS) $(SRC) -o $(OBJECT)
+
+check: $(TARGET)
+	@echo "Check..."
+	$(CC) $(LFLAGS_TST) $(LFLAGS) -o $(TESTER) $(TST) -L. $(TARGET)
+	$(TESTER)
 
 clean:
-	rm $(BUILD_DIR)/*
+	@echo "Cleaning..."
+	$(RM) -f $(BINDIR)/* $(BUILDDIR)/*
