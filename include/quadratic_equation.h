@@ -1,7 +1,6 @@
 #include <math.h>
 #include <stdbool.h>
 
-// Необходимые константы
 enum {
   // Бесконечное кол-во решений
   EQ_INF_SOLUTION = 3,

@@ -1,9 +1,25 @@
 #include "../include/quadratic_equation.h"
 #include <check.h>
+#include <stdlib.h>
 
 #define EPS 1e-6
 
-START_TEST(test1) {
+START_TEST(num_is_ok1) {
+  ck_assert(num_is_ok(1.001));
+  ck_assert(num_is_ok(-123));
+  ck_assert(num_is_ok(333));
+  ck_assert(num_is_ok(0.000001));
+  ck_assert(num_is_ok(EPS));
+}
+END_TEST
+
+START_TEST(num_is_ok2) {
+  ck_assert(!num_is_ok(NAN));
+  ck_assert(!num_is_ok(INFINITY));
+}
+END_TEST
+
+START_TEST(solve_equation1) {
   double x1, x2;
 
   double a = 3, b = -4, c = 10;
@@ -13,7 +29,7 @@ START_TEST(test1) {
 }
 END_TEST
 
-START_TEST(test2) {
+START_TEST(solve_equation2) {
   double x1, x2;
 
   double a = 2, b = 12, c = 2;
@@ -28,7 +44,7 @@ START_TEST(test2) {
 }
 END_TEST
 
-START_TEST(test3) {
+START_TEST(solve_equation3) {
   double x1, x2;
 
   double a = 43, b = 76, c = -79;
@@ -43,7 +59,7 @@ START_TEST(test3) {
 }
 END_TEST
 
-START_TEST(test4) {
+START_TEST(solve_equation4) {
   double x1, x2;
 
   double a = NAN, b = 2, c = 3;
@@ -53,7 +69,7 @@ START_TEST(test4) {
 }
 END_TEST
 
-START_TEST(test5) {
+START_TEST(solve_equation5) {
   double x1, x2;
 
   double a = 0, b = 0, c = 0;
@@ -65,7 +81,7 @@ START_TEST(test5) {
 }
 END_TEST
 
-START_TEST(test6) {
+START_TEST(solve_equation6) {
   double x1, x2;
 
   double a = 0, b = 0, c = 1;
@@ -75,7 +91,7 @@ START_TEST(test6) {
 }
 END_TEST
 
-START_TEST(test7) {
+START_TEST(solve_equation7) {
   double x1, x2;
 
   double a = INFINITY, b = NAN, c = -1;
@@ -85,7 +101,7 @@ START_TEST(test7) {
 }
 END_TEST
 
-START_TEST(test8) {
+START_TEST(solve_equation8) {
   double x1, x2;
 
   double a = 0.000331, b = 0.001434, c = 0.000351;
@@ -100,7 +116,7 @@ START_TEST(test8) {
 }
 END_TEST
 
-START_TEST(test9) {
+START_TEST(solve_equation9) {
   double x1, x2;
 
   double a = -0.000164, b = 0.000291, c = 0.000927;
@@ -115,7 +131,7 @@ START_TEST(test9) {
 }
 END_TEST
 
-START_TEST(test10) {
+START_TEST(solve_equation10) {
   double x1, x2;
 
   double a = 1e5, b = 1e5, c = 1e-5;
@@ -130,7 +146,7 @@ START_TEST(test10) {
 }
 END_TEST
 
-START_TEST(test11) {
+START_TEST(solve_equation11) {
   double x1, x2;
 
   double a = EPS, b = EPS, c = 0;
@@ -145,7 +161,7 @@ START_TEST(test11) {
 }
 END_TEST
 
-START_TEST(test12) {
+START_TEST(solve_equation12) {
   double x1, x2;
 
   double a = EPS, b = EPS, c = 10;
@@ -155,7 +171,7 @@ START_TEST(test12) {
 }
 END_TEST
 
-START_TEST(test13) {
+START_TEST(solve_equation13) {
   double x1, x2;
 
   double a = 0.1, b = 0.003, c = 0.002;
@@ -165,28 +181,59 @@ START_TEST(test13) {
 }
 END_TEST
 
+Suite *num_is_ok_suite() {
+  Suite *suite = suite_create("num_is_ok");
+  TCase *tc_core = tcase_create("core_of_num_is");
+
+  tcase_add_test(tc_core, num_is_ok1);
+  tcase_add_test(tc_core, num_is_ok2);
+  suite_add_tcase(suite, tc_core);
+
+  return suite;
+}
+
+Suite *solve_equation_suite() {
+  Suite *suite = suite_create("solve_equation");
+  TCase *tc_core = tcase_create("core_of_solve_equation");
+
+  tcase_add_test(tc_core, solve_equation1);
+  tcase_add_test(tc_core, solve_equation2);
+  tcase_add_test(tc_core, solve_equation3);
+  tcase_add_test(tc_core, solve_equation4);
+  tcase_add_test(tc_core, solve_equation5);
+  tcase_add_test(tc_core, solve_equation6);
+  tcase_add_test(tc_core, solve_equation7);
+  tcase_add_test(tc_core, solve_equation8);
+  tcase_add_test(tc_core, solve_equation9);
+  tcase_add_test(tc_core, solve_equation10);
+  tcase_add_test(tc_core, solve_equation11);
+  tcase_add_test(tc_core, solve_equation12);
+  tcase_add_test(tc_core, solve_equation13);
+
+  suite_add_tcase(suite, tc_core);
+
+  return suite;
+}
+
+unsigned int run_suite(Suite *suite, char *file_logs) {
+  SRunner *srunner = srunner_create(suite);
+
+  srunner_set_log(srunner, file_logs);
+  srunner_run_all(srunner, CK_ENV);
+  int count_failed_tests = srunner_ntests_failed(srunner);
+
+  srunner_free(srunner);
+
+  return count_failed_tests;
+}
+
 int main() {
-  Suite *s = suite_create("quadratic_equation");
-  TCase *tc_core = tcase_create("core");
-  SRunner *sr = srunner_create(s);
+  int count_failed_tests = 0;
+  
+  count_failed_tests +=
+      run_suite(num_is_ok_suite(), "test/logs/test_num_is_ok.log");
+  count_failed_tests += run_suite(solve_equation_suite(),
+                                  "test/logs/test_solve_equation_suite.log");
 
-  suite_add_tcase(s, tc_core);
-
-  tcase_add_test(tc_core, test1);
-  tcase_add_test(tc_core, test2);
-  tcase_add_test(tc_core, test3);
-  tcase_add_test(tc_core, test4);
-  tcase_add_test(tc_core, test5);
-  tcase_add_test(tc_core, test6);
-  tcase_add_test(tc_core, test7);
-  tcase_add_test(tc_core, test8);
-  tcase_add_test(tc_core, test9);
-  tcase_add_test(tc_core, test10);
-  tcase_add_test(tc_core, test11);
-  tcase_add_test(tc_core, test12);
-  tcase_add_test(tc_core, test13);
-
-  srunner_run_all(sr, CK_ENV);
-  int nf = srunner_ntests_failed(sr);
-  srunner_free(sr);
+  return count_failed_tests == 0 ? EXIT_SUCCESS : EXIT_FAILURE;
 }

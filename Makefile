@@ -13,6 +13,8 @@ BINDIR := ./bin
 TARGET := $(BUILDDIR)/$(NAME).a
 TESTER := $(BINDIR)/test_$(NAME)
 
+LOGDIR := $(TSTDIR)/logs
+
 CFLAGS := -std=c11
 LFLAGS := -lm
 LFLAGS_TST := -lcheck
@@ -38,4 +40,4 @@ check: $(TARGET)
 
 clean:
 	@echo "Cleaning..."
-	$(RM) -f $(BINDIR)/* $(BUILDDIR)/*
+	$(RM) -f $(BINDIR)/* $(BUILDDIR)/* $(LOGDIR)/*

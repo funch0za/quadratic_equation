@@ -1,19 +1,25 @@
 #include "../include/quadratic_equation.h"
 
 /**
- * @brief Функция проверяет подходит ли число для вычислений
- * @param double x - число для проверки
- * @return bool
+ * @brief Проверяет подходит ли число для вычислений
+ * @param {double} x - число для проверки
+ * @return {bool} :
+                true - число подходит
+                false - число не подходит
  */
 bool num_is_ok(double x) {
   return fpclassify(x) == FP_ZERO || fpclassify(x) == FP_NORMAL;
 }
 
 /**
- * @brief "short definition of function"
- * @param "short definition of parametr"
- * ...
- * @return "short definition of returned value"
+ * @brief Решает уравнение ax^2+bx+c=0
+ * @param {double} a - коэффициент уравнения
+ * @param {double} b - коэффициент уравнения
+ * @param {double} c - коэффициент уравнения
+ * @param {double} *x1 - будет записано одно из решений уравнения
+ * @param {double} *x2 - будет записано одно из решений уравнения
+ * @return {eq_status_t} - возвращает значение одной из констант: бесконечное
+ * кол-во решений, два решения, одно решение, нет решение, ошибка
  */
 eq_status_t solve_equation(double a, double b, double c, double *x1,
                            double *x2) {
