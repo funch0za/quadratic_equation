@@ -12,3 +12,17 @@
 
 ## Структура проекта
 
+```
+├── bin
+├── build
+├── include
+│   └── quadratic_equation.h
+├── Makefile
+├── README.md
+├── src
+│   └── quadratic_equation.c
+└── test
+    ├── logs
+    └── test_quadratic_equation.c
+```
+

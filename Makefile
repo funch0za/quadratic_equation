@@ -3,14 +3,17 @@ CC := gcc
 NAME := quadratic_equation
 
 SRCDIR := ./src
-SRC := $(SRCDIR)/*.c
+SRC := $(SRCDIR)/$(NAME).c
 TSTDIR := ./test
-TST := $(TSTDIR)/*.c
+TST := $(TSTDIR)/test_$(NAME).c
 BUILDDIR := ./build
 OBJECT := $(BUILDDIR)/$(NAME).o
+OBJECT_TST := $(BUILDDIR)/test_$(NAME).o
 BINDIR := ./bin
 
-TARGET := $(BUILDDIR)/$(NAME).a
+LIBDIR := ./lib
+TARGET := $(LIBDIR)/lib$(NAME).so
+
 TESTER := $(BINDIR)/test_$(NAME)
 
 LOGDIR := $(TSTDIR)/logs
@@ -20,22 +23,24 @@ LFLAGS := -lm
 LFLAGS_TST := -lcheck
 
 RM := rm
-AR := ar
-AR_FLAGS := rcs
 
 all: clean $(TARGET)
 
 $(TARGET): $(OBJECT)
-	@echo "Linking..."
-	$(AR) $(AR_FLAGS) $(TARGET) $(OBJECT)
+	@echo "Linking library..."
+	$(CC) -shared $(OBJECT) $(CFLAGS) $(LFLAGS) -o $(TARGET)
 
 $(OBJECT): $(SRC)
-	@echo "Compiling..."
-	$(CC) -c $(LFLAGS) $(CFLAGS) $(SRC) -o $(OBJECT)
+	@echo "Compiling library..."
+	$(CC) -c -fPIC $(SRC) -o $(OBJECT)
 
-check: $(TARGET)
+$(OBJECT_TST): $(TST) $(TARGET)
+	@echo "Compiling test..."
+	$(CC) -c $(TST) -o $(OBJECT_TST)
+
+check: $(TARGET) $(OBJECT_TST)
 	@echo "Check..."
-	$(CC) $(LFLAGS_TST) $(LFLAGS) -o $(TESTER) $(TST) -L. $(TARGET)
+	$(CC) $(LFLAGS_TST) $(CFLAGS) $(OBJECT_TST) -L. $(TARGET) -Wl,-rpath,. -o $(TESTER)
 	$(TESTER)
 
 clean:
