@@ -18,7 +18,7 @@ TESTER := $(BINDIR)/test_$(NAME)
 
 LOGDIR := $(TSTDIR)/logs
 
-CFLAGS := -std=c11
+CFLAGS := -std=c11 -Wall -Werror -Wextra
 LFLAGS := -lm
 LFLAGS_TST := -lcheck
 
@@ -31,11 +31,11 @@ $(TARGET): $(OBJECT)
 	$(CC) -shared $(OBJECT) $(CFLAGS) $(LFLAGS) -o $(TARGET)
 
 $(OBJECT): $(SRC)
-	@echo "Compiling library..."
+	@echo "Building library..."
 	$(CC) -c -fPIC $(SRC) -o $(OBJECT)
 
 $(OBJECT_TST): $(TST) $(TARGET)
-	@echo "Compiling test..."
+	@echo "Building test..."
 	$(CC) -c $(TST) -o $(OBJECT_TST)
 
 check: $(TARGET) $(OBJECT_TST)
