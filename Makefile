@@ -3,20 +3,21 @@ CC := gcc
 NAME := quadratic_equation
 
 SRCDIR := ./src
-SRC := $(SRCDIR)/$(NAME).c
-TSTDIR := ./test
-TST := $(TSTDIR)/test_$(NAME).c
 BUILDDIR := ./build
+BINDIR := ./bin
+LIBDIR := ./lib
+TSTDIR := ./test
+LOGDIR := $(TSTDIR)/logs
+
+SRC := $(SRCDIR)/$(NAME).c
+TST := $(TSTDIR)/test_$(NAME).c
+
 OBJECT := $(BUILDDIR)/$(NAME).o
 OBJECT_TST := $(BUILDDIR)/test_$(NAME).o
-BINDIR := ./bin
 
-LIBDIR := ./lib
 TARGET := $(LIBDIR)/lib$(NAME).so
 
 TESTER := $(BINDIR)/test_$(NAME)
-
-LOGDIR := $(TSTDIR)/logs
 
 CFLAGS := -std=c11 -Wall -Werror -Wextra
 LFLAGS := -lm
