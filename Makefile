@@ -45,4 +45,4 @@ check: $(TARGET) $(OBJECT_TST)
 
 clean:
 	@echo "Cleaning..."
-	$(RM) -f $(BINDIR)/* $(BUILDDIR)/* $(LOGDIR)/*
+	$(RM) -f $(BINDIR)/* $(BUILDDIR)/* $(LOGDIR)/* $(TARGET)
