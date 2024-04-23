@@ -39,9 +39,12 @@ $(OBJECT_TST): $(TST) $(TARGET)
 	@echo "Building test..."
 	$(CC) -c $(TST) -o $(OBJECT_TST)
 
-check: $(TARGET) $(OBJECT_TST)
-	@echo "Check..."
+$(TESTER): $(TARGET) $(OBJECT_TST)
+	@echo "Linking test..."
 	$(CC) $(LFLAGS_TST) $(CFLAGS) $(OBJECT_TST) -L. $(TARGET) -Wl,-rpath,. -o $(TESTER)
+
+check: $(TESTER)
+	@echo "Run test..."
 	$(TESTER)
 
 clean:

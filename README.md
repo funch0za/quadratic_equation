@@ -10,6 +10,16 @@
 
 В качестве решения принимается архив с каталогом quadratic_equation.
 
+## Сборка модуля
+```
+make
+```
+
+## Сборка и запуск тестов
+```
+make check
+```
+
 ## Структура проекта
 
 ```
@@ -17,12 +27,11 @@
 ├── build
 ├── include
 │   └── quadratic_equation.h
-├── Makefile
+├── Makefile 
 ├── README.md
 ├── src
 │   └── quadratic_equation.c
 └── test
-    ├── logs
+    ├── logs 
     └── test_quadratic_equation.c
 ```
-
